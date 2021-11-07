@@ -124,7 +124,7 @@ mod dns {
         }
 
         /// Transfer owner to another address.
-        #[ink(message)]
+        #[ink(message, selector = 0xFEEDDEED)]
         pub fn transfer(&mut self, name: Hash, to: AccountId) -> Result<()> {
             let caller = self.env().caller();
             let owner = self.get_owner_or_default(name);

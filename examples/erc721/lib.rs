@@ -166,6 +166,7 @@ mod erc721 {
 
         /// Approves or disapproves the operator for all tokens of the caller.
         #[ink(message)]
+        #[ink(message, selector = 0xFEEDBABE)]
         pub fn set_approval_for_all(
             &mut self,
             to: AccountId,
