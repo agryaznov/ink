@@ -98,7 +98,7 @@ pub mod is_contract {
                 account_id
             );
 
-            let is_contract = self.env().is_contract(account_id);
+            let is_contract = self.env().is_contract(&account_id);
 
             self.env().emit_event(AccountIsContract {
                 account_id: account_id.clone(),
