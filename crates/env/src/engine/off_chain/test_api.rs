@@ -285,7 +285,7 @@ pub fn run_test<T, F>(f: F) -> Result<()>
 where
     T: Environment,
     F: FnOnce(DefaultAccounts<T>) -> Result<()>,
-    <T as Environment>::AccountId: From<[u8; 32]>,
+    <T as Environment>::AccountId: From<[u8; 20]>,
 {
     let default_accounts = default_accounts::<T>();
     <EnvInstance as OnInstance>::on_instance(|instance| {
@@ -323,15 +323,15 @@ where
 pub fn default_accounts<T>() -> DefaultAccounts<T>
 where
     T: Environment,
-    <T as Environment>::AccountId: From<[u8; 32]>,
+    <T as Environment>::AccountId: From<[u8; 20]>,
 {
     DefaultAccounts {
-        alice: T::AccountId::from([0x01; 32]),
-        bob: T::AccountId::from([0x02; 32]),
-        charlie: T::AccountId::from([0x03; 32]),
-        django: T::AccountId::from([0x04; 32]),
-        eve: T::AccountId::from([0x05; 32]),
-        frank: T::AccountId::from([0x06; 32]),
+        alice: T::AccountId::from([0x01; 20]),
+        bob: T::AccountId::from([0x02; 20]),
+        charlie: T::AccountId::from([0x03; 20]),
+        django: T::AccountId::from([0x04; 20]),
+        eve: T::AccountId::from([0x05; 20]),
+        frank: T::AccountId::from([0x06; 20]),
     }
 }
 

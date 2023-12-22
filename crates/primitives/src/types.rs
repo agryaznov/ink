@@ -35,18 +35,18 @@ use {
     Debug, Copy, Clone, PartialEq, Eq, Ord, PartialOrd, Hash, Decode, Encode, From,
 )]
 #[cfg_attr(feature = "std", derive(TypeInfo, DecodeAsType, EncodeAsType))]
-pub struct AccountId([u8; 32]);
+pub struct AccountId([u8; 20]);
 
-impl AsRef<[u8; 32]> for AccountId {
+impl AsRef<[u8; 20]> for AccountId {
     #[inline]
-    fn as_ref(&self) -> &[u8; 32] {
+    fn as_ref(&self) -> &[u8; 20] {
         &self.0
     }
 }
 
-impl AsMut<[u8; 32]> for AccountId {
+impl AsMut<[u8; 20]> for AccountId {
     #[inline]
-    fn as_mut(&mut self) -> &mut [u8; 32] {
+    fn as_mut(&mut self) -> &mut [u8; 20] {
         &mut self.0
     }
 }
@@ -69,7 +69,7 @@ impl<'a> TryFrom<&'a [u8]> for AccountId {
     type Error = TryFromSliceError;
 
     fn try_from(bytes: &'a [u8]) -> Result<Self, TryFromSliceError> {
-        let address = <[u8; 32]>::try_from(bytes)?;
+        let address = <[u8; 20]>::try_from(bytes)?;
         Ok(Self(address))
     }
 }
@@ -95,13 +95,13 @@ impl<'a> TryFrom<&'a [u8]> for AccountId {
     Default,
 )]
 #[cfg_attr(feature = "std", derive(TypeInfo, DecodeAsType, EncodeAsType))]
-pub struct Hash([u8; 32]);
+pub struct Hash([u8; 20]);
 
 impl<'a> TryFrom<&'a [u8]> for Hash {
     type Error = TryFromSliceError;
 
     fn try_from(bytes: &'a [u8]) -> Result<Self, TryFromSliceError> {
-        let hash = <[u8; 32]>::try_from(bytes)?;
+        let hash = <[u8; 20]>::try_from(bytes)?;
         Ok(Self(hash))
     }
 }
@@ -129,8 +129,8 @@ pub trait Clear {
     fn is_clear(&self) -> bool;
 }
 
-impl Clear for [u8; 32] {
-    const CLEAR_HASH: Self = [0x00; 32];
+impl Clear for [u8; 20] {
+    const CLEAR_HASH: Self = [0x00; 20];
 
     fn is_clear(&self) -> bool {
         self == &Self::CLEAR_HASH
@@ -138,9 +138,9 @@ impl Clear for [u8; 32] {
 }
 
 impl Clear for Hash {
-    const CLEAR_HASH: Self = Self(<[u8; 32] as Clear>::CLEAR_HASH);
+    const CLEAR_HASH: Self = Self(<[u8; 20] as Clear>::CLEAR_HASH);
 
     fn is_clear(&self) -> bool {
-        <[u8; 32] as Clear>::is_clear(&self.0)
+        <[u8; 20] as Clear>::is_clear(&self.0)
     }
 }
