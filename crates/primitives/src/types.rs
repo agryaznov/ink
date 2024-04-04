@@ -95,13 +95,13 @@ impl<'a> TryFrom<&'a [u8]> for AccountId {
     Default,
 )]
 #[cfg_attr(feature = "std", derive(TypeInfo, DecodeAsType, EncodeAsType))]
-pub struct Hash([u8; 20]);
+pub struct Hash([u8; 32]);
 
 impl<'a> TryFrom<&'a [u8]> for Hash {
     type Error = TryFromSliceError;
 
     fn try_from(bytes: &'a [u8]) -> Result<Self, TryFromSliceError> {
-        let hash = <[u8; 20]>::try_from(bytes)?;
+        let hash = <[u8; 32]>::try_from(bytes)?;
         Ok(Self(hash))
     }
 }
@@ -129,8 +129,8 @@ pub trait Clear {
     fn is_clear(&self) -> bool;
 }
 
-impl Clear for [u8; 20] {
-    const CLEAR_HASH: Self = [0x00; 20];
+impl Clear for [u8; 32] {
+    const CLEAR_HASH: Self = [0x00; 32];
 
     fn is_clear(&self) -> bool {
         self == &Self::CLEAR_HASH
@@ -138,9 +138,9 @@ impl Clear for [u8; 20] {
 }
 
 impl Clear for Hash {
-    const CLEAR_HASH: Self = Self(<[u8; 20] as Clear>::CLEAR_HASH);
+    const CLEAR_HASH: Self = Self(<[u8; 32] as Clear>::CLEAR_HASH);
 
     fn is_clear(&self) -> bool {
-        <[u8; 20] as Clear>::is_clear(&self.0)
+        <[u8; 32] as Clear>::is_clear(&self.0)
     }
 }
